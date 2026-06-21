@@ -1,0 +1,14 @@
+# Node / tooling (only used for local testing, never deployed)
+node_modules/
+package.json
+package-lock.json
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local scratch / test scaffolding
+_*.js
+_shot_*.png

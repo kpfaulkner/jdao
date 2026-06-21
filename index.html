@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SCHOOLNIGHTS — prototype</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%237a4a23'/><rect x='4' y='5' width='3' height='3' fill='%23fff'/><rect x='9' y='5' width='3' height='3' fill='%23fff'/></svg>" />
+<style>
+  :root { --crt: #2b2b1f; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    height: 100%;
+    background: #000;
+    color: #cfcfb0;
+    font-family: "Courier New", monospace;
+    overflow: hidden;
+  }
+  #wrap {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #game {
+    image-rendering: pixelated;
+    background: #000;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    cursor: none;
+  }
+  /* HUD */
+  #hud {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 18px;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: #e8e2b0;
+    text-shadow: 2px 2px 0 #000;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,.55));
+  }
+  #hud .val { color: #ffd34d; font-weight: bold; }
+  #hud .hp { color: #ff5d4d; }
+  /* overlays */
+  .overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    background: rgba(0,0,0,.82);
+    gap: 16px;
+    padding: 24px;
+  }
+  .overlay h1 { font-size: 46px; color: #ffd34d; letter-spacing: 3px; text-shadow: 3px 3px 0 #6b1a1a; }
+  .overlay h1 small { display:block; font-size: 15px; color:#8d8; letter-spacing:2px; margin-top:6px; }
+  .overlay p { max-width: 560px; line-height: 1.6; color: #cfcfb0; }
+  .overlay .keys { color:#9fd; }
+  .overlay button {
+    font-family: inherit; font-size: 20px; letter-spacing: 2px;
+    padding: 12px 30px; margin-top: 8px;
+    background: #ffd34d; color: #2b1a00; border: 3px solid #fff; cursor: pointer;
+  }
+  .overlay button:hover { background: #fff; }
+  .hidden { display: none !important; }
+  #msg {
+    position:absolute; top: 14px; left: 50%; transform: translateX(-50%);
+    color:#ffd34d; font-size: 18px; text-shadow: 2px 2px 0 #000;
+    pointer-events:none; opacity:0; transition: opacity .25s;
+  }
+</style>
+</head>
+<body>
+  <div id="wrap">
+    <canvas id="game" width="960" height="600"></canvas>
+
+    <div id="msg"></div>
+
+    <div id="hud" class="hidden">
+      <div>HEALTH <span class="val hp" id="hp">100</span></div>
+      <div>LEVEL <span class="val" id="level">1</span></div>
+      <div><span id="weapon">PISTOL</span> <span class="val" id="ammo">24</span></div>
+      <div>LEFT <span class="val" id="left">0</span></div>
+    </div>
+
+    <div id="startScreen" class="overlay">
+      <h1>SCHOOLNIGHTS<small>a doom-by-night prototype</small></h1>
+      <p>
+        The animatronics got loose in the schoolhouse. Clear every enemy to unlock the
+        <b style="color:#ff6b6b">red exit door</b>, then push deeper — the arcade, then the bunker.
+      </p>
+      <p class="keys">
+        <b>WASD</b> move &nbsp;•&nbsp; <b>MOUSE</b> look &nbsp;•&nbsp; <b>L-CLICK / SPACE</b> attack (hold for auto)<br/>
+        <b>1</b> pistol &nbsp;•&nbsp; <b>2</b> shotgun &nbsp;•&nbsp; <b>3</b> SMG &nbsp;•&nbsp; <b>4</b> chainsaw &nbsp;•&nbsp; <b>Q / WHEEL</b> swap<br/>
+        <b>R-CLICK</b> block (knife) &nbsp;•&nbsp; <b>E</b> doors / exit &nbsp;•&nbsp; <b>TAB</b> map &nbsp;•&nbsp; <b>SHIFT</b> sprint
+      </p>
+      <p class="keys">
+        Enemies hunt you when out of sight. <b style="color:#ffe21f">Pac-Man</b> shoots back.<br/>
+        Level 3 is <b>knife only</b> — <b style="color:#9fd2ff">block</b> to deflect bullets, and parry a
+        <b style="color:#caa">Hell Knight</b> the instant it glows <b style="color:#ffd34d">yellow</b>.
+      </p>
+      <button id="startBtn">ENTER THE SCHOOL</button>
+    </div>
+
+    <div id="endScreen" class="overlay hidden">
+      <h1 id="endTitle">YOU WIN</h1>
+      <p id="endText"></p>
+      <button id="restartBtn">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="sprites.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

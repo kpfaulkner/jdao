@@ -1,0 +1,18 @@
+# Render Blueprint — deploys SCHOOLNIGHTS as a static site.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# In Render: New → Blueprint → connect this repo. Render reads this file
+# and creates the static site automatically (no dashboard config needed).
+services:
+  - type: web
+    name: schoolnights
+    runtime: static
+    # Nothing to compile — the game is plain HTML/JS served as-is.
+    buildCommand: "echo 'no build step'"
+    # The site root is this repo root (index.html lives here).
+    staticPublishPath: .
+    headers:
+      # Don't let browsers cache the game files between deploys.
+      - path: /*
+        name: Cache-Control
+        value: "no-cache"
