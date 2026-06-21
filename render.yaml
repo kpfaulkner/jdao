@@ -5,7 +5,7 @@
 # and creates the static site automatically (no dashboard config needed).
 services:
   - type: web
-    name: jdao
+    name: doomed-freddy
     runtime: static
     # Nothing to compile — the game is plain HTML/JS served as-is.
     buildCommand: "echo 'no build step'"
